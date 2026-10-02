@@ -23,5 +23,10 @@ function cacheMiddleware(req, res, next) {
 
 module.exports = {
     cache,
-    cacheMiddleware
+    cacheMiddleware,
+    clearCache() {
+        for (const key of Object.keys(cache)) {
+            delete cache[key]
+        }
+    }
 }

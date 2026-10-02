@@ -8,7 +8,7 @@ const {
     deleteProduct
 } = require('../services/product_service.js')
 
-const { cache } = require('../middleware/cache_middleware')
+const { cache, clearCache } = require('../middleware/cache_middleware')
 
 // GET all products
 async function getAll(req, res) {
@@ -51,6 +51,7 @@ async function getOne(req, res) {
 async function create(req, res) {
     try {
         const product = await createProduct(req.body)
+        clearCache()
         res.status(201).json(product)
     } catch (err) {
         res.status(500).json({ message: 'Server error' })
@@ -69,6 +70,7 @@ async function replace(req, res) {
             return res.status(404).json({ message: 'Product not found' })
         }
 
+        clearCache()
         res.json(product)
     } catch (err) {
         res.status(500).json({ message: 'Server error' })
@@ -87,6 +89,7 @@ async function update(req, res) {
             return res.status(404).json({ message: 'Product not found' })
         }
 
+        clearCache()
         res.json(product)
     } catch (err) {
         res.status(500).json({ message: 'Server error' })
@@ -102,6 +105,7 @@ async function remove(req, res) {
             return res.status(404).json({ message: 'Product not found' })
         }
 
+        clearCache()
         res.json({ message: 'Product deleted', product })
     } catch (err) {
         res.status(500).json({ message: 'Server error' })
